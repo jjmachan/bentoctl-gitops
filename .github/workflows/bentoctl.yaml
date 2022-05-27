@@ -1,0 +1,22 @@
+name: deploy-to-sagemaker
+on: 
+  workflow-dispatch:
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - run: |
+          python --version 
+          pip --version
+      - run: |
+          pip install --pre bentoml
+          pip install --pre bentoctl
+          pip install boto3
+      - run: |
+          bentoml --version 
+          bentoctl --version
+      - run: bentoctl operator install aws-lambda
