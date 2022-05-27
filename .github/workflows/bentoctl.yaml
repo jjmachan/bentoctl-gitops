@@ -9,14 +9,19 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - run: |
-          python --version 
-          pip --version
-      - run: |
+      - name: install depedencies
+        run: |
           pip install --pre bentoml
           pip install --pre bentoctl
           pip install boto3
+          bentoctl operator install aws-sagemaker
+      - name: build bento and bentoctl deployable
+        run: |
+          pip install -r ./requirements.txt
+          python ./train.py
+          bentoml build -f bentofile.yaml
+          bentoctl build -b iris_classifier:latest --dry-run -f ./sagemaker_config.yaml
       - run: |
-          bentoml --version 
-          bentoctl --version
-      - run: bentoctl operator install aws-lambda
+          IMG=$(docker image list --format "{{json .Tag}}" | head -1 | tr -d '"')
+          docker run aws-sagemaker-iris_classifier:$IMG ls
+          docker run aws-sagemaker-iris_classifier:$IMG bash -c 'echo $PATH; echo $BENTO_PATH'
