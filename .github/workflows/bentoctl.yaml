@@ -1,6 +1,6 @@
 name: deploy-to-sagemaker
 on: 
-  workflow-dispatch:
+  workflow_dispatch:
     dummy:
       required: false
       default: 'dummy'
