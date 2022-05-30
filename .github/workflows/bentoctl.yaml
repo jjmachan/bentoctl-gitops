@@ -1,6 +1,9 @@
 name: deploy-to-sagemaker
 on: 
   workflow-dispatch:
+    dummy:
+      required: false
+      default: 'dummy'
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
