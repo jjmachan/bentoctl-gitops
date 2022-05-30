@@ -28,3 +28,5 @@ jobs:
           IMG=$(docker image list --format "{{json .Tag}}" | head -1 | tr -d '"')
           docker run aws-sagemaker-iris_classifier:$IMG ls
           docker run aws-sagemaker-iris_classifier:$IMG bash -c 'echo $PATH; echo $BENTO_PATH'
+      - name: show docker version 
+        run: docker version
