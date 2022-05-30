@@ -14,7 +14,7 @@ jobs:
           python-version: 3.8
       - name: install depedencies
         run: |
-          pip install --pre bentoml
+          pip install --pre bentoml==1.0.0a7
           pip install --pre bentoctl
           pip install boto3
           bentoctl operator install aws-sagemaker
